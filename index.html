@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Genesis Axolotl — Fantasy Clash</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
@@ -229,6 +230,54 @@
   .reveal { opacity:0; transform:translateY(30px); transition:opacity .7s ease, transform .7s ease; }
   .reveal.visible { opacity:1; transform:translateY(0); }
 
+
+  /* ─── TELEGRAM WEBAPP THEME ADAPTATION ─── */
+  :root {
+    --tg-bg:          var(--tg-theme-bg-color, #1a0f00);
+    --tg-text:        var(--tg-theme-text-color, #fdf6e3);
+    --tg-hint:        var(--tg-theme-hint-color, rgba(253,246,227,0.5));
+    --tg-link:        var(--tg-theme-link-color, #c4922a);
+    --tg-button:      var(--tg-theme-button-color, #c4922a);
+    --tg-button-text: var(--tg-theme-button-text-color, #1a0f00);
+    --tg-secondary:   var(--tg-theme-secondary-bg-color, #0f0800);
+  }
+  /* Safe area for phones with notch */
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  /* Hide nav on Telegram (header handled by TWA) */
+  .tg-hide-nav nav { display: none !important; }
+  .tg-hide-nav .hero { padding-top: 60px; }
+
+  /* TWA Back Button hint */
+  #twa-back {
+    display: none;
+    position: fixed;
+    top: 12px; left: 16px;
+    z-index: 200;
+    background: rgba(196,146,42,0.15);
+    border: 1px solid rgba(196,146,42,0.4);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: #fde68a;
+    cursor: pointer;
+    letter-spacing: 1px;
+  }
+
+  /* TWA Main Button override (bottom CTA) */
+  #twa-main-btn {
+    display: none; /* shown via JS when in Telegram */
+  }
+
+  /* Telegram viewport fix */
+  html, body { height: 100%; }
+  @supports (height: 100dvh) {
+    body { min-height: 100dvh; }
+  }
+
   @media(max-width:700px){
     nav{padding:12px 20px}
     .trust-grid,.utilities-grid,.notiers-grid{grid-template-columns:1fr}
@@ -410,36 +459,114 @@
 
 <!-- ROADMAP -->
 <section class="roadmap-section">
-  <div class="section-inner">
+  <div class="section-inner" style="max-width:720px">
     <p class="section-tag reveal">THE PATH</p>
-    <h2 class="section-title reveal">A transparent roadmap.</h2>
+    <h2 class="section-title reveal">Strategic Roadmap · V1.5</h2>
     <p class="section-sub reveal">No hype — clear steps, clear accountability.</p>
-    <div class="roadmap-steps reveal">
-      <div class="roadmap-step">
-        <div class="roadmap-bubble">🐉</div>
-        <div class="roadmap-phase">PHASE 1</div>
-        <div class="roadmap-title">Genesis Drop</div>
-        <div class="roadmap-text">NFT sale of the 555 limited Axolotls. Whitelist first.</div>
+
+    <!-- PHASE 1 -->
+    <div class="reveal" style="display:flex;gap:16px;margin-bottom:16px;align-items:stretch">
+      <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:60px">
+        <div style="width:52px;height:52px;border-radius:50%;background:rgba(196,146,42,0.15);border:2px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:18px;z-index:1">🌱</div>
+        <div style="width:2px;flex:1;background:linear-gradient(180deg,var(--gold),#e8b84b);margin-top:6px;min-height:20px;opacity:0.4"></div>
       </div>
-      <div class="roadmap-step">
-        <div class="roadmap-bubble">🏦</div>
-        <div class="roadmap-phase">PHASE 2</div>
-        <div class="roadmap-title">Company Formation</div>
-        <div class="roadmap-text">Official company founded in Switzerland, funded by the drop.</div>
-      </div>
-      <div class="roadmap-step">
-        <div class="roadmap-bubble">⚖️</div>
-        <div class="roadmap-phase">PHASE 3</div>
-        <div class="roadmap-title">Legal &amp; Audit</div>
-        <div class="roadmap-text">Legal opinion &amp; FINMA review. Token audit. Alpha for founders.</div>
-      </div>
-      <div class="roadmap-step">
-        <div class="roadmap-bubble">🚀</div>
-        <div class="roadmap-phase">PHASE 4</div>
-        <div class="roadmap-title">Game Development</div>
-        <div class="roadmap-text">Alpha version launch. Full gameplay for NFT holders.</div>
+      <div style="flex:1;background:rgba(59,130,246,0.07);border:1px solid rgba(59,130,246,0.3);border-radius:12px;padding:16px 18px;margin-bottom:6px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="background:rgba(30,58,110,0.8);color:#bfdbfe;font-size:9px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:1px;font-family:'Cinzel',serif">PHASE 1 · NOW</span>
+          <span style="background:rgba(59,130,246,0.15);color:#93c5fd;font-size:9px;font-weight:600;padding:3px 8px;border-radius:20px">Ongoing</span>
+        </div>
+        <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:#bfdbfe;margin-bottom:10px">Community Building &amp; Genesis Whitelist</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(96,165,250,0.25);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(191,219,254,0.8)">👥 Build the community</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(96,165,250,0.25);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(191,219,254,0.8)">📋 Genesis Drop whitelist</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(96,165,250,0.25);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(191,219,254,0.8)">🐉 Prepare 555 NFTs</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(96,165,250,0.25);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(191,219,254,0.8)">📣 Marketing &amp; awareness</span>
+        </div>
       </div>
     </div>
+
+    <!-- PHASE 2 -->
+    <div class="reveal" style="display:flex;gap:16px;margin-bottom:16px;align-items:stretch">
+      <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:60px">
+        <div style="width:52px;height:52px;border-radius:50%;background:rgba(196,146,42,0.15);border:2px solid var(--gold-light);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:16px;z-index:1">🐉<div style="font-size:8px;color:var(--gold-pale);font-family:'Cinzel',serif;line-height:1">Q2 '26</div></div>
+        <div style="width:2px;flex:1;background:linear-gradient(180deg,var(--gold-light),#22c55e);margin-top:6px;min-height:20px;opacity:0.4"></div>
+      </div>
+      <div style="flex:1;background:rgba(196,146,42,0.07);border:1px solid rgba(196,146,42,0.3);border-radius:12px;padding:16px 18px;margin-bottom:6px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="background:rgba(92,58,0,0.8);color:var(--gold-pale);font-size:9px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:1px;font-family:'Cinzel',serif">PHASE 2 · Q2 2026</span>
+          <span style="background:rgba(196,146,42,0.15);color:var(--gold-light);font-size:9px;font-weight:600;padding:3px 8px;border-radius:20px">Coming Soon</span>
+        </div>
+        <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--gold-pale);margin-bottom:10px">The 555 Genesis Mint &amp; Company Formation</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(196,146,42,0.25);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(253,230,138,0.8)">🎨 555 Genesis NFT mint</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(196,146,42,0.25);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(253,230,138,0.8)">🏦 Company formation Switzerland (planned)</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(196,146,42,0.25);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(253,230,138,0.8)">💰 Capital raised from NFT sales</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(196,146,42,0.25);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(253,230,138,0.8)">✨ Founder privileges activated</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(196,146,42,0.25);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(253,230,138,0.8)">🗳 Governance voting live</span>
+        </div>
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(196,146,42,0.2);border-radius:8px;padding:10px 12px">
+          <div style="font-family:'Cinzel',serif;font-size:9px;font-weight:700;color:var(--gold);letter-spacing:2px;margin-bottom:6px">GENESIS FOUNDER BENEFITS</div>
+          <div style="font-size:11px;color:rgba(253,230,138,0.7);display:flex;flex-wrap:wrap;gap:10px">
+            <span>💎 +20% FCG Lifetime Boost</span>
+            <span>🎁 Guaranteed Airdrop</span>
+            <span>🗳 Governance</span>
+            <span>🔬 Beta Access</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="reveal" style="display:flex;gap:16px;margin-bottom:16px;align-items:stretch">
+      <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:60px">
+        <div style="width:52px;height:52px;border-radius:50%;background:rgba(34,197,94,0.1);border:2px solid #22c55e;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:16px;z-index:1">⚗️<div style="font-size:8px;color:#4ade80;font-family:'Cinzel',serif;line-height:1">Q3 '26</div></div>
+        <div style="width:2px;flex:1;background:linear-gradient(180deg,#22c55e,#f97316);margin-top:6px;min-height:20px;opacity:0.4"></div>
+      </div>
+      <div style="flex:1;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.25);border-radius:12px;padding:16px 18px;margin-bottom:6px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="background:rgba(20,83,45,0.8);color:#bbf7d0;font-size:9px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:1px;font-family:'Cinzel',serif">PHASE 3 · Q3 2026</span>
+          <span style="background:rgba(34,197,94,0.15);color:#4ade80;font-size:9px;font-weight:600;padding:3px 8px;border-radius:20px">Alpha</span>
+        </div>
+        <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:#bbf7d0;margin-bottom:10px">Legal · Audit · Alpha for NFT Holders</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(74,222,128,0.2);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(187,247,208,0.8)">⚖️ Legal opinion (FINMA-compliant)</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(74,222,128,0.2);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(187,247,208,0.8)">🔍 $FCG token audit</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(74,222,128,0.2);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(187,247,208,0.8)">🎮 Alpha access for founders</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(74,222,128,0.2);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(187,247,208,0.8)">🪙 KYC / AML processes</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(74,222,128,0.2);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(187,247,208,0.8)">🐾 Axolotl system testing</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="reveal" style="display:flex;gap:16px;margin-bottom:6px;align-items:stretch">
+      <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:60px">
+        <div style="width:52px;height:52px;border-radius:50%;background:rgba(249,115,22,0.1);border:2px solid #f97316;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:16px;z-index:1">🚀<div style="font-size:8px;color:#fb923c;font-family:'Cinzel',serif;line-height:1">Q4 '26</div></div>
+      </div>
+      <div style="flex:1;background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.28);border-radius:12px;padding:16px 18px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="background:rgba(124,45,18,0.8);color:#fed7aa;font-size:9px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:1px;font-family:'Cinzel',serif">PHASE 4 · Q4 2026</span>
+          <span style="background:rgba(249,115,22,0.15);color:#fb923c;font-size:9px;font-weight:600;padding:3px 8px;border-radius:20px">Full Launch</span>
+        </div>
+        <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:#fed7aa;margin-bottom:10px">Full Release · Mobile · Cross-Chain</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(251,146,60,0.2);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(254,215,170,0.8)">🌍 Public launch</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(251,146,60,0.2);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(254,215,170,0.8)">📱 Mobile integration</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(251,146,60,0.2);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(254,215,170,0.8)">🔗 Cross-chain expansion</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(251,146,60,0.2);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(254,215,170,0.8)">💱 DEX listing (Q3/Q4)</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(251,146,60,0.2);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(254,215,170,0.8)">⚙️ Steampunk era unlocked</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(251,146,60,0.2);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(254,215,170,0.8)">🎫 Season pass launch</span>
+        </div>
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(249,115,22,0.2);border-radius:8px;padding:10px 12px">
+          <div style="font-family:'Cinzel',serif;font-size:9px;font-weight:700;color:#fb923c;letter-spacing:2px;margin-bottom:6px">🔥 BURN MECHANISM ACTIVE</div>
+          <div style="font-size:11px;color:rgba(254,215,170,0.7);display:flex;flex-wrap:wrap;gap:12px">
+            <span>🏰 25% burn on building upgrades</span>
+            <span>🛒 50% burn on NFT marketplace fees</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -546,5 +673,114 @@
   }, {threshold:0.1});
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
+
+<script>
+// ─── TELEGRAM WEBAPP INTEGRATION ───────────────────────────────────────────
+const tg = window.Telegram?.WebApp;
+
+if (tg) {
+  // Expand to full screen
+  tg.expand();
+  tg.disableVerticalSwipes();
+
+  // Tell Telegram the app is ready
+  tg.ready();
+
+  // ── Theme: apply Telegram colors to our CSS vars
+  document.documentElement.style.setProperty('--tg-bg', tg.backgroundColor || '#1a0f00');
+
+  // ── Hide our custom nav (Telegram has its own header)
+  document.body.classList.add('tg-hide-nav');
+
+  // ── Header color to match our dark theme
+  tg.setHeaderColor('#0f0800');
+  tg.setBackgroundColor('#0f0800');
+
+  // ── Main Button (bottom CTA in Telegram)
+  tg.MainButton.setText('JOIN THE WHITELIST NOW');
+  tg.MainButton.color = '#c4922a';
+  tg.MainButton.textColor = '#1a0f00';
+  tg.MainButton.show();
+
+  tg.MainButton.onClick(() => {
+    // Haptic feedback
+    tg.HapticFeedback.impactOccurred('medium');
+    // Scroll to whitelist section or open form
+    document.getElementById('whitelist').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // ── Back Button — show when user scrolls past hero
+  tg.BackButton.onClick(() => {
+    tg.HapticFeedback.impactOccurred('light');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) {
+      tg.BackButton.show();
+    } else {
+      tg.BackButton.hide();
+    }
+  });
+
+  // ── Haptic on CTA buttons
+  document.querySelectorAll('.btn-primary, .btn-secondary, .nav-cta').forEach(btn => {
+    btn.addEventListener('click', () => {
+      tg.HapticFeedback.impactOccurred('light');
+    });
+  });
+
+  // ── Haptic on FAQ open
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      tg.HapticFeedback.selectionChanged();
+    });
+  });
+
+  // ── Popup for whitelist signup (uses Telegram native popup)
+  document.querySelectorAll('a[href="#whitelist"], .btn-primary').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      tg.HapticFeedback.notificationOccurred('success');
+      tg.showPopup({
+        title: '🐉 Join the Whitelist',
+        message: 'You are about to secure your spot for the Genesis Axolotl drop.
+
+555 NFTs · 150–200 TON · All equal · All founders.',
+        buttons: [
+          { id: 'confirm', type: 'default', text: '✅ Secure My Spot' },
+          { id: 'cancel',  type: 'cancel',  text: 'Not yet' }
+        ]
+      }, (buttonId) => {
+        if (buttonId === 'confirm') {
+          // Open your actual whitelist link here
+          tg.openTelegramLink('https://t.me/your_channel'); // ← replace with your channel
+          tg.HapticFeedback.notificationOccurred('success');
+        }
+      });
+    });
+  });
+
+  // ── Show Telegram user name if available
+  if (tg.initDataUnsafe?.user?.first_name) {
+    const name = tg.initDataUnsafe.user.first_name;
+    const badge = document.querySelector('.hero-badge');
+    if (badge) badge.textContent = `🐉  Welcome, ${name} · Only 555 in the World  🐉`;
+  }
+
+  // ── Cloud Storage: remember if user has seen the page
+  tg.CloudStorage.getItem('visited', (err, val) => {
+    if (!val) {
+      tg.CloudStorage.setItem('visited', 'true');
+    }
+  });
+
+} else {
+  // ── Running in browser (not Telegram) — normal behavior
+  console.log('Running outside Telegram — normal browser mode');
+}
+// ─── END TELEGRAM WEBAPP INTEGRATION ───────────────────────────────────────
+</script>
+
 </body>
 </html>
