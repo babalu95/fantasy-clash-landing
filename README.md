@@ -12,3 +12,4 @@ https://fantasyclash-genesis.netlify.app
 - [x] Telegram Mini App
 - [ ] Smart Contract
 - [ ] Whitelist System
+
