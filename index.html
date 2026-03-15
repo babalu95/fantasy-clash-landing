@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Genesis Axolotl — Fantasy Clash</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold:       #c4922a;
+    --gold-light: #e8b84b;
+    --gold-pale:  #fde68a;
+    --cream:      #fdf6e3;
+    --brown-mid:  #5c3a00;
+    --brown-soft: #8b5e1a;
+    --ink:        #1a0f00;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+  .divider { text-align:center; color:var(--gold); font-size:20px; opacity:0.5; margin:12px 0; letter-spacing:8px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:16px 40px;
+    background: linear-gradient(180deg, rgba(26,15,0,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(8px);
+  }
+  .nav-logo { font-family:'Cinzel',serif; font-size:14px; font-weight:700; color:var(--gold-light); letter-spacing:3px; }
+  .nav-cta {
+    font-family:'Cinzel',serif; font-size:11px; font-weight:600; letter-spacing:2px;
+    color:var(--ink); background:linear-gradient(135deg,var(--gold),var(--gold-light));
+    border:none; padding:10px 22px; border-radius:4px; cursor:pointer;
+    text-decoration:none; transition:opacity .2s, transform .2s;
+  }
+  .nav-cta:hover { opacity:.85; transform:translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center; padding:120px 24px 80px; position:relative;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(196,146,42,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 80% at 20% 80%, rgba(196,146,42,0.06) 0%, transparent 60%),
+      linear-gradient(180deg, #1a0f00 0%, #0f0800 100%);
+  }
+  .hero::before, .hero::after {
+    content:''; position:absolute; width:300px; height:300px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300'%3E%3Cpath d='M20,20 Q120,20 120,120 Q120,20 220,20' fill='none' stroke='%23c4922a' stroke-width='1' opacity='0.2'/%3E%3Cpath d='M20,20 Q20,120 120,120 Q20,120 20,220' fill='none' stroke='%23c4922a' stroke-width='1' opacity='0.2'/%3E%3Ccircle cx='120' cy='120' r='6' fill='%23c4922a' opacity='0.3'/%3E%3Ccircle cx='20' cy='20' r='3' fill='%23e8b84b' opacity='0.4'/%3E%3C/svg%3E");
+    background-size:contain; background-repeat:no-repeat; pointer-events:none;
+  }
+  .hero::before { top:80px; left:20px; }
+  .hero::after  { bottom:40px; right:20px; transform:rotate(180deg); }
+
+  .hero-badge {
+    display:inline-block; font-family:'Cinzel',serif; font-size:11px;
+    font-weight:600; letter-spacing:4px; color:var(--gold-pale);
+    border:1px solid rgba(196,146,42,0.4); padding:8px 20px;
+    border-radius:30px; margin-bottom:28px; background:rgba(196,146,42,0.08);
+    animation:fadeUp .8s ease both;
+  }
+  .hero-title {
+    font-family:'Cinzel',serif; font-size:clamp(36px,7vw,80px);
+    font-weight:900; line-height:1.05; margin-bottom:16px;
+    background:linear-gradient(135deg,#fff8e7 0%,var(--gold-light) 40%,var(--gold) 70%,#fff8e7 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    animation:fadeUp .8s .1s ease both;
+  }
+  .hero-subtitle {
+    font-size:clamp(16px,2.5vw,22px); font-style:italic;
+    color:rgba(253,246,227,0.7); max-width:620px; margin:0 auto 24px;
+    animation:fadeUp .8s .2s ease both;
+  }
+  .hero-equal-badge {
+    display:inline-block; background:linear-gradient(135deg,rgba(196,146,42,0.2),rgba(232,184,75,0.1));
+    border:1.5px solid rgba(196,146,42,0.5); border-radius:8px;
+    padding:10px 28px; font-family:'Cinzel',serif; font-size:13px;
+    font-weight:700; color:var(--gold-pale); letter-spacing:1px;
+    margin-bottom:32px; animation:fadeUp .8s .25s ease both;
+  }
+  .hero-cta-group { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; animation:fadeUp .8s .3s ease both; }
+  .btn-primary {
+    font-family:'Cinzel',serif; font-size:13px; font-weight:700; letter-spacing:2px;
+    color:var(--ink); background:linear-gradient(135deg,var(--gold),var(--gold-light),var(--gold));
+    border:none; padding:16px 36px; border-radius:4px; cursor:pointer; text-decoration:none;
+    box-shadow:0 4px 24px rgba(196,146,42,0.35); transition:transform .2s, box-shadow .2s;
+    animation:pulse-gold 3s ease infinite;
+  }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(196,146,42,0.5); }
+  .btn-secondary {
+    font-family:'Cinzel',serif; font-size:12px; font-weight:600; letter-spacing:2px;
+    color:var(--gold-light); background:transparent; border:1px solid rgba(196,146,42,0.5);
+    padding:16px 32px; border-radius:4px; cursor:pointer; text-decoration:none;
+    transition:background .2s, border-color .2s;
+  }
+  .btn-secondary:hover { background:rgba(196,146,42,0.1); border-color:var(--gold); }
+
+  /* Countdown */
+  .countdown { margin-top:52px; animation:fadeUp .8s .4s ease both; }
+  .countdown-label { font-family:'Cinzel',serif; font-size:10px; letter-spacing:4px; color:rgba(196,146,42,0.6); margin-bottom:12px; }
+  .countdown-blocks { display:flex; gap:16px; justify-content:center; }
+  .countdown-block { text-align:center; min-width:64px; }
+  .countdown-num {
+    font-family:'Cinzel',serif; font-size:36px; font-weight:700; color:var(--gold-light);
+    background:rgba(196,146,42,0.08); border:1px solid rgba(196,146,42,0.25);
+    border-radius:6px; padding:8px 12px; display:block; min-width:64px;
+  }
+  .countdown-unit { font-size:10px; letter-spacing:2px; color:rgba(253,246,227,0.4); margin-top:6px; font-family:'Cinzel',serif; }
+
+  /* Supply bar */
+  .supply-bar { margin-top:40px; max-width:360px; margin-left:auto; margin-right:auto; animation:fadeUp .8s .5s ease both; }
+  .supply-label { display:flex; justify-content:space-between; font-size:12px; color:rgba(253,246,227,0.5); margin-bottom:8px; font-family:'Cinzel',serif; letter-spacing:1px; }
+  .supply-track { height:6px; background:rgba(196,146,42,0.15); border-radius:3px; overflow:hidden; }
+  .supply-fill { height:100%; width:0%; background:linear-gradient(90deg,var(--gold),var(--gold-light)); border-radius:3px; transition:width 1.5s cubic-bezier(0.16,1,0.3,1); }
+
+  /* SECTIONS */
+  section { position:relative; z-index:1; }
+  .section-inner { max-width:1000px; margin:0 auto; padding:80px 24px; }
+  .section-tag { font-family:'Cinzel',serif; font-size:10px; letter-spacing:5px; color:var(--gold); text-align:center; margin-bottom:12px; opacity:.8; }
+  .section-title { font-family:'Cinzel',serif; font-size:clamp(24px,4vw,40px); font-weight:700; text-align:center; color:var(--cream); margin-bottom:8px; line-height:1.2; }
+  .section-sub { text-align:center; font-style:italic; color:rgba(253,246,227,0.55); font-size:16px; max-width:580px; margin:0 auto 48px; }
+
+  /* TRUST */
+  .trust-section { background:linear-gradient(180deg,#0f0800 0%,#1a0f00 50%,#0f0800 100%); border-top:1px solid rgba(196,146,42,0.15); border-bottom:1px solid rgba(196,146,42,0.15); }
+  .trust-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .trust-card { background:rgba(196,146,42,0.06); border:1px solid rgba(196,146,42,0.2); border-radius:10px; padding:28px 20px; text-align:center; transition:border-color .3s, background .3s; }
+  .trust-card:hover { border-color:rgba(196,146,42,0.5); background:rgba(196,146,42,0.1); }
+  .trust-icon { font-size:36px; margin-bottom:14px; }
+  .trust-title { font-family:'Cinzel',serif; font-size:13px; font-weight:600; color:var(--gold-light); letter-spacing:1px; margin-bottom:8px; }
+  .trust-text { font-size:14px; color:rgba(253,246,227,0.6); line-height:1.6; }
+
+  /* UTILITIES */
+  .utilities-section { background:linear-gradient(180deg,#0f0800 0%,#1a1000 100%); }
+  .utilities-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+  .utility-card { display:flex; gap:18px; align-items:flex-start; background:linear-gradient(135deg,rgba(253,246,227,0.05),rgba(196,146,42,0.06)); border:1px solid rgba(196,146,42,0.2); border-radius:12px; padding:24px 22px; transition:transform .2s, border-color .2s; }
+  .utility-card:hover { transform:translateY(-3px); border-color:rgba(196,146,42,0.45); }
+  .utility-icon-wrap { width:52px; height:52px; flex-shrink:0; background:linear-gradient(135deg,rgba(196,146,42,0.2),rgba(232,184,75,0.1)); border:1px solid rgba(196,146,42,0.3); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:24px; }
+  .utility-title { font-family:'Cinzel',serif; font-size:14px; font-weight:600; color:var(--gold-light); margin-bottom:6px; }
+  .utility-text { font-size:14px; color:rgba(253,246,227,0.6); line-height:1.6; }
+
+  /* NO TIERS section */
+  .notiers-section { background:linear-gradient(180deg,#1a1000 0%,#0f0800 100%); border-top:1px solid rgba(196,146,42,0.1); }
+  .notiers-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:32px; }
+  .notiers-card { background:rgba(196,146,42,0.06); border:1px solid rgba(196,146,42,0.22); border-radius:12px; padding:24px 16px; text-align:center; transition:transform .2s; }
+  .notiers-card:hover { transform:translateY(-3px); }
+  .notiers-card .big { font-size:40px; margin-bottom:10px; }
+  .notiers-card .ttl { font-family:'Cinzel',serif; font-size:14px; font-weight:600; color:var(--gold-pale); margin-bottom:6px; }
+  .notiers-card .txt { font-size:13px; color:rgba(253,246,227,0.55); }
+
+  /* Equipment */
+  .equip-row { border-radius:10px; padding:14px 18px; margin-bottom:8px; }
+  .equip-row.stone { background:rgba(59,130,246,0.07); border:1px solid rgba(59,130,246,0.25); }
+  .equip-row.forest { background:rgba(34,197,94,0.07); border:1px solid rgba(34,197,94,0.25); }
+  .equip-row.fire { background:rgba(249,115,22,0.07); border:1px solid rgba(249,115,22,0.25); }
+  .equip-label { font-family:'Cinzel',serif; font-size:11px; font-weight:600; letter-spacing:2px; margin-bottom:8px; }
+  .equip-row.stone .equip-label { color:#60a5fa; }
+  .equip-row.forest .equip-label { color:#4ade80; }
+  .equip-row.fire .equip-label { color:#fb923c; }
+  .equip-tags { display:flex; flex-wrap:wrap; gap:6px; }
+  .equip-tag { border-radius:5px; padding:4px 10px; font-size:11px; }
+  .equip-row.stone .equip-tag { background:rgba(59,130,246,0.1); border:1px solid rgba(96,165,250,0.3); color:#bfdbfe; }
+  .equip-row.forest .equip-tag { background:rgba(34,197,94,0.1); border:1px solid rgba(74,222,128,0.3); color:#bbf7d0; }
+  .equip-row.fire .equip-tag { background:rgba(249,115,22,0.1); border:1px solid rgba(251,146,60,0.3); color:#fed7aa; }
+
+  /* ROADMAP */
+  .roadmap-section { background:linear-gradient(180deg,#0f0800 0%,#1a0f00 100%); border-top:1px solid rgba(196,146,42,0.1); }
+  .roadmap-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:0; position:relative; }
+  .roadmap-steps::before { content:''; position:absolute; top:28px; left:12%; right:12%; height:2px; background:linear-gradient(90deg,var(--gold),var(--gold-light),#22c55e,#f97316); opacity:.35; border-radius:2px; }
+  .roadmap-step { text-align:center; padding:0 12px; }
+  .roadmap-bubble { width:56px; height:56px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; margin:0 auto 16px; font-size:18px; border:2px solid; position:relative; z-index:1; }
+  .roadmap-step:nth-child(1) .roadmap-bubble { background:rgba(196,146,42,0.15); border-color:var(--gold); }
+  .roadmap-step:nth-child(2) .roadmap-bubble { background:rgba(232,184,75,0.12); border-color:var(--gold-light); }
+  .roadmap-step:nth-child(3) .roadmap-bubble { background:rgba(34,197,94,0.1); border-color:#22c55e; }
+  .roadmap-step:nth-child(4) .roadmap-bubble { background:rgba(249,115,22,0.1); border-color:#f97316; }
+  .roadmap-phase { font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; margin-bottom:6px; }
+  .roadmap-step:nth-child(1) .roadmap-phase { color:var(--gold); }
+  .roadmap-step:nth-child(2) .roadmap-phase { color:var(--gold-light); }
+  .roadmap-step:nth-child(3) .roadmap-phase { color:#4ade80; }
+  .roadmap-step:nth-child(4) .roadmap-phase { color:#fb923c; }
+  .roadmap-title { font-family:'Cinzel',serif; font-size:12px; font-weight:600; color:var(--cream); margin-bottom:6px; }
+  .roadmap-text { font-size:12px; color:rgba(253,246,227,0.5); line-height:1.5; }
+
+  /* FAQ */
+  .faq-section { background:linear-gradient(180deg,#1a0f00 0%,#0f0800 100%); border-top:1px solid rgba(196,146,42,0.1); }
+  .faq-list { max-width:700px; margin:0 auto; display:flex; flex-direction:column; gap:12px; }
+  .faq-item { border:1px solid rgba(196,146,42,0.2); border-radius:10px; overflow:hidden; transition:border-color .2s; }
+  .faq-item:hover { border-color:rgba(196,146,42,0.4); }
+  .faq-q { width:100%; display:flex; justify-content:space-between; align-items:center; padding:18px 22px; background:rgba(196,146,42,0.05); cursor:pointer; border:none; text-align:left; font-family:'Cinzel',serif; font-size:13px; font-weight:600; color:var(--gold-light); letter-spacing:.5px; gap:12px; }
+  .faq-q:hover { background:rgba(196,146,42,0.09); }
+  .faq-arrow { flex-shrink:0; font-size:16px; transition:transform .3s; color:var(--gold); }
+  .faq-item.open .faq-arrow { transform:rotate(180deg); }
+  .faq-a { max-height:0; overflow:hidden; transition:max-height .4s cubic-bezier(0.16,1,0.3,1), padding .3s; font-size:15px; color:rgba(253,246,227,0.65); padding:0 22px; line-height:1.7; }
+  .faq-item.open .faq-a { max-height:200px; padding:0 22px 18px; }
+
+  /* FINAL CTA */
+  .final-cta { background:linear-gradient(180deg,#0f0800 0%,#1a0f00 50%,#0f0800 100%); border-top:1px solid rgba(196,146,42,0.15); text-align:center; padding:100px 24px; position:relative; }
+  .final-cta::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(196,146,42,0.1) 0%,transparent 70%); pointer-events:none; }
+  .final-title { font-family:'Cinzel',serif; font-size:clamp(28px,5vw,52px); font-weight:900; color:var(--cream); margin-bottom:16px; line-height:1.15; }
+  .final-sub { font-style:italic; color:rgba(253,246,227,0.55); font-size:18px; max-width:500px; margin:0 auto 40px; }
+
+  /* FOOTER */
+  footer { background:#0a0500; border-top:1px solid rgba(196,146,42,0.1); padding:32px 24px; text-align:center; }
+  .footer-logo { font-family:'Cinzel',serif; font-size:16px; font-weight:700; color:var(--gold); letter-spacing:3px; margin-bottom:10px; }
+  .footer-text { font-size:12px; color:rgba(253,246,227,0.3); line-height:1.8; max-width:600px; margin:0 auto; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes pulse-gold { 0%,100%{box-shadow:0 0 0 0 rgba(196,146,42,0.4)} 50%{box-shadow:0 0 0 12px rgba(196,146,42,0)} }
+  .reveal { opacity:0; transform:translateY(30px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @media(max-width:700px){
+    nav{padding:12px 20px}
+    .trust-grid,.utilities-grid,.notiers-grid{grid-template-columns:1fr}
+    .roadmap-steps{grid-template-columns:1fr 1fr;gap:24px}
+    .roadmap-steps::before{display:none}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">FANTASY CLASH</div>
+  <a href="#whitelist" class="nav-cta">JOIN THE WHITELIST</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🐉 &nbsp; ONLY 555 IN THE WORLD &nbsp; 🐉</div>
+  <h1 class="hero-title">Become a Founding Father<br>of Fantasy Clash.</h1>
+  <p class="hero-subtitle">
+    Secure one of only 555 limited Genesis Axolotl NFTs on TON —
+    and lay the foundation for the next great Web3 epic.
+  </p>
+  <div class="hero-equal-badge">
+    All 555 are equal · No rarity tiers · Every piece an original
+  </div>
+  <div class="hero-cta-group">
+    <a href="#whitelist" class="btn-primary">JOIN THE WHITELIST NOW</a>
+    <a href="#benefits" class="btn-secondary">DISCOVER YOUR BENEFITS</a>
+  </div>
+  <div class="countdown">
+    <div class="countdown-label">MINTING STARTS IN</div>
+    <div class="countdown-blocks">
+      <div class="countdown-block"><span class="countdown-num" id="cd-days">14</span><div class="countdown-unit">DAYS</div></div>
+      <div class="countdown-block"><span class="countdown-num" id="cd-hours">08</span><div class="countdown-unit">HRS</div></div>
+      <div class="countdown-block"><span class="countdown-num" id="cd-mins">34</span><div class="countdown-unit">MIN</div></div>
+      <div class="countdown-block"><span class="countdown-num" id="cd-secs">22</span><div class="countdown-unit">SEC</div></div>
+    </div>
+  </div>
+  <div class="supply-bar">
+    <div class="supply-label"><span>WHITELIST SPOTS</span><span id="supply-count">0 / 1000</span></div>
+    <div class="supply-track"><div class="supply-fill" id="supply-fill"></div></div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="trust-section">
+  <div class="section-inner">
+    <div class="divider reveal">⸻ ✦ ⸻</div>
+    <p class="section-tag reveal">WHY FANTASY CLASH</p>
+    <h2 class="section-title reveal">The Swiss Quality Promise.</h2>
+    <p class="section-sub reveal">Transparency over hype — built on real foundations.</p>
+    <div class="trust-grid reveal">
+      <div class="trust-card">
+        <div class="trust-icon">🇨🇭</div>
+        <div class="trust-title">Swiss Regulated</div>
+        <div class="trust-text">Company formation in Switzerland planned. FINMA utility token classification as the goal.</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">🛡️</div>
+        <div class="trust-title">Audited Contracts</div>
+        <div class="trust-text">Professional smart contract audit before launch. Your assets are secure.</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">💎</div>
+        <div class="trust-title">TON Integration</div>
+        <div class="trust-text">Seamless wallet integration via Telegram. 900M users — no app download needed.</div>
+      </div>
+    </div>
+    <div class="divider reveal" style="margin-top:32px">⸻ ✦ ⸻</div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="utilities-section" id="benefits">
+  <div class="section-inner">
+    <p class="section-tag reveal">YOUR VALUE</p>
+    <h2 class="section-title reveal">What every Founder receives.</h2>
+    <p class="section-sub reveal">Privileges that will never be obtainable again — for all 555, no exceptions.</p>
+    <div class="utilities-grid reveal">
+      <div class="utility-card">
+        <div class="utility-icon-wrap">💎</div>
+        <div>
+          <div class="utility-title">$FCG Airdrop</div>
+          <div class="utility-text">Every NFT carries a fixed amount of $FCG tokens, credited directly at launch. No conditions, no strings attached.</div>
+        </div>
+      </div>
+      <div class="utility-card">
+        <div class="utility-icon-wrap">⚡</div>
+        <div>
+          <div class="utility-title">+20% Staking Power</div>
+          <div class="utility-text">A permanent earnings boost on all in-game resources. Lifetime — never expiring, never transferable.</div>
+        </div>
+      </div>
+      <div class="utility-card">
+        <div class="utility-icon-wrap">🔬</div>
+        <div>
+          <div class="utility-title">Alpha Pass</div>
+          <div class="utility-text">Lifetime access to all test phases before the official release. You play before anyone else even knows it exists.</div>
+        </div>
+      </div>
+      <div class="utility-card">
+        <div class="utility-icon-wrap">👑</div>
+        <div>
+          <div class="utility-title">Founder Badge</div>
+          <div class="utility-text">A permanent, exclusive icon next to your name in the global leaderboard — visible forever, never available again.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NO TIERS + EQUIPMENT -->
+<section class="notiers-section">
+  <div class="section-inner">
+    <div class="divider reveal">⸻ ✦ ⸻</div>
+    <p class="section-tag reveal">THE COLLECTION</p>
+    <h2 class="section-title reveal">555 Originals. Not one more.</h2>
+    <p class="section-sub reveal">
+      All 555 Genesis Axolotls are equal and unique — there are no rarity tiers.<br>
+      <em>Further NFTs (equipment, items) will appear through chests &amp; chance — never for sale.</em>
+    </p>
+    <div class="notiers-grid reveal">
+      <div class="notiers-card">
+        <div class="big">5️⃣5️⃣5️⃣</div>
+        <div class="ttl">Total Supply</div>
+        <div class="txt">Forever limited. Never restocked. Never again.</div>
+      </div>
+      <div class="notiers-card">
+        <div class="big">👑</div>
+        <div class="ttl">All Equal</div>
+        <div class="txt">No Common, no Rare — every single NFT is a Founder.</div>
+      </div>
+      <div class="notiers-card">
+        <div class="big">🎲</div>
+        <div class="ttl">Future NFTs</div>
+        <div class="txt">Equipment &amp; items generated through chests &amp; chance — not purchasable.</div>
+      </div>
+    </div>
+
+    <!-- Equipment -->
+    <div class="reveal">
+      <p class="section-tag" style="margin-bottom:16px">⚔️ FACTION EQUIPMENT IN-GAME ⚔️</p>
+      <div style="font-size:14px;text-align:center;font-style:italic;color:rgba(253,246,227,0.35);margin-bottom:16px">Generated through gameplay — the Genesis NFT unlocks your faction</div>
+      <div class="equip-row stone">
+        <div class="equip-label">🪨 STONE DRAGON EQUIPMENT</div>
+        <div class="equip-tags">
+          <span class="equip-tag">🛡 Earthguardian Shield</span>
+          <span class="equip-tag">🔮 Crystal Mace</span>
+          <span class="equip-tag">💍 Gem Choker</span>
+          <span class="equip-tag">🧱 Stonehide Breastplate</span>
+          <span class="equip-tag">🦏 Horn Augmentation</span>
+        </div>
+      </div>
+      <div class="equip-row forest">
+        <div class="equip-label">🌿 FOREST DRAGON EQUIPMENT</div>
+        <div class="equip-tags">
+          <span class="equip-tag">👑 Forest King Crown</span>
+          <span class="equip-tag">🌿 Vine Spear</span>
+          <span class="equip-tag">🏹 Wilderness Quiver &amp; Arrows</span>
+          <span class="equip-tag">🍃 Leaf Pauldrons</span>
+          <span class="equip-tag">🌳 Root Greaves</span>
+        </div>
+      </div>
+      <div class="equip-row fire">
+        <div class="equip-label">🔥 FIRE DRAGON EQUIPMENT</div>
+        <div class="equip-tags">
+          <span class="equip-tag">⚔️ Emberstone Broadsword</span>
+          <span class="equip-tag">🪖 Lava Helm</span>
+          <span class="equip-tag">🦇 Firestorm Wing Armor</span>
+          <span class="equip-tag">🦀 Molten Claw</span>
+          <span class="equip-tag">🟠 Fireball Amulet</span>
+        </div>
+      </div>
+    </div>
+    <div class="divider reveal" style="margin-top:32px">⸻ ✦ ⸻</div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="roadmap-section">
+  <div class="section-inner">
+    <p class="section-tag reveal">THE PATH</p>
+    <h2 class="section-title reveal">A transparent roadmap.</h2>
+    <p class="section-sub reveal">No hype — clear steps, clear accountability.</p>
+    <div class="roadmap-steps reveal">
+      <div class="roadmap-step">
+        <div class="roadmap-bubble">🐉</div>
+        <div class="roadmap-phase">PHASE 1</div>
+        <div class="roadmap-title">Genesis Drop</div>
+        <div class="roadmap-text">NFT sale of the 555 limited Axolotls. Whitelist first.</div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-bubble">🏦</div>
+        <div class="roadmap-phase">PHASE 2</div>
+        <div class="roadmap-title">Company Formation</div>
+        <div class="roadmap-text">Official company founded in Switzerland, funded by the drop.</div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-bubble">⚖️</div>
+        <div class="roadmap-phase">PHASE 3</div>
+        <div class="roadmap-title">Legal &amp; Audit</div>
+        <div class="roadmap-text">Legal opinion &amp; FINMA review. Token audit. Alpha for founders.</div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-bubble">🚀</div>
+        <div class="roadmap-phase">PHASE 4</div>
+        <div class="roadmap-title">Game Development</div>
+        <div class="roadmap-text">Alpha version launch. Full gameplay for NFT holders.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="section-inner">
+    <div class="divider reveal">⸻ ✦ ⸻</div>
+    <p class="section-tag reveal">QUESTIONS &amp; ANSWERS</p>
+    <h2 class="section-title reveal">Everything you need to know.</h2>
+    <div style="margin-bottom:40px"></div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Why only 555? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">To guarantee maximum exclusivity and value stability for our first supporters. 555 founders — no more, never again.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Are there different rarity tiers? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">No. All 555 Genesis Axolotls are completely equal. Every holder is a founder with the same privileges. Future NFTs (equipment, items) will be generated through in-game chests and random drops — they cannot be purchased directly.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What happens with the mint proceeds? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">50% goes directly into the share capital of the planned Swiss company. The remainder is used for development, legal opinion, and regulatory security. Full transparency via our Telegram community.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Which wallet do I need? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">Any TON-compatible wallet — for example Tonkeeper or the direct Telegram Wallet. No download necessary if you use Telegram.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Is $FCG a security? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">No. We are pursuing classification as a utility token under Swiss law. Tokens and NFTs do not constitute securities within the meaning of the Swiss Code of Obligations. A total loss of invested capital is possible.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">How do I get on the whitelist? <span class="faq-arrow">▾</span></button>
+        <div class="faq-a">Join our Telegram channel and follow the instructions. Whitelist members receive exclusive early access to the mint at 150 TON instead of 200 TON.</div>
+      </div>
+    </div>
+    <div class="divider reveal" style="margin-top:40px">⸻ ✦ ⸻</div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="whitelist">
+  <div style="position:relative;z-index:1">
+    <div class="hero-badge" style="margin-bottom:24px">555 GENESIS · ONE TIME ONLY</div>
+    <h2 class="final-title">Your place in history<br>is waiting.</h2>
+    <p class="final-sub">Become a founding father. Shape the future of Fantasy Clash. Before anyone else even knows it exists.</p>
+    <a href="#" class="btn-primary" style="font-size:14px;padding:18px 44px">JOIN THE WHITELIST NOW</a>
+    <div style="margin-top:20px;font-size:13px;font-style:italic;color:rgba(253,246,227,0.35)">TON wallet required · No app install needed · 150–200 TON per NFT</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">FANTASY CLASH</div>
+  <div class="footer-text">
+    © 2026 Fantasy Clash · Switzerland · All rights reserved<br>
+    Tokens and NFTs are not securities. A total loss of invested capital is possible.
+    This offer is not directed at persons in jurisdictions where such offers are prohibited.
+    This is not financial or investment advice.
+  </div>
+</footer>
+
+<script>
+  // Countdown
+  const target = new Date(Date.now() + 14*86400000 + 8*3600000 + 34*60000);
+  function updateCountdown() {
+    const diff = target - Date.now();
+    if (diff <= 0) return;
+    const d = Math.floor(diff/86400000);
+    const h = Math.floor((diff%86400000)/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
+    document.getElementById('cd-days').textContent  = String(d).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-mins').textContent  = String(m).padStart(2,'0');
+    document.getElementById('cd-secs').textContent  = String(s).padStart(2,'0');
+  }
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+  // Supply bar
+  setTimeout(() => {
+    const fill = document.getElementById('supply-fill');
+    const count = document.getElementById('supply-count');
+    let n = 0; const tgt = 347;
+    const iv = setInterval(() => {
+      n = Math.min(n+4, tgt);
+      fill.style.width = (n/1000*100)+'%';
+      count.textContent = n+' / 1000';
+      if(n>=tgt) clearInterval(iv);
+    }, 16);
+  }, 600);
+
+  // FAQ
+  function toggleFaq(btn) {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if(!isOpen) item.classList.add('open');
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
