@@ -1,0 +1,10 @@
+# Geheime Dateien — NIEMALS hochladen
+.env
+.env.local
+.env.production
+# System-Dateien
+.DS_Store
+Thumbs.db
+# Editor
+.vscode/settings.json
+*.log
